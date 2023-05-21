@@ -2,6 +2,8 @@
 
 This package contains `@onlongpress` event handler built from [John Doherty's](https://github.com/john-doherty) JS [long-press](https://github.com/john-doherty/long-press-event) 
 
+Motivation: For similar functionality you can also use `oncontextmenu` what is built-in event. But it doesnt work on iOS devices. [Source](https://caniuse.com/mdn-api_element_contextmenu_event)
+
 - Before using the JS, I renamed triggered event name from `long-press` to `longpress` to be able to use it in Blazor.
 - I have also changed default show time from `1500ms` to `500ms`. In case you would like to specify your custom time, you can do so by adding tag attribute with your custom time like: 
 ``` 
