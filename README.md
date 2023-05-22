@@ -13,7 +13,9 @@ This package contains `@onlongpress` event handler built from [John Doherty's](h
 *TIP:* For better usage experience put: `@using Blazor.EventHandlers.LongPress` into `_Imports.razor` file.
 
 ## Used resources
-- MSDN [docs](https://docs.microsoft.com/en-us/aspnet/core/blazor/components/event-handling?view=aspnetcore-7.0)
+- MSDN 
+  - [docs](https://docs.microsoft.com/en-us/aspnet/core/blazor/components/event-handling?view=aspnetcore-7.0)
+  - [docs[(https://learn.microsoft.com/en-us/mobile-blazor-bindings/walkthroughs/hybrid-hello-world#wwwroot-static-web-assets-folder) 
 - ASP.NET Core [repo](https://github.com/dotnet/aspnetcore/tree/main/src/Components/Web/src/Web)
 - Fluent UI Blazor [repo](https://github.com/microsoft/fluentui-blazor/blob/1aa0e2fdd144c3b243b387d90d5a6499995436df/src/Microsoft.Fast.Components.FluentUI/wwwroot/Microsoft.Fast.Components.FluentUI.lib.module.js)
 
