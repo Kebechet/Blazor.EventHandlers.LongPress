@@ -5,7 +5,9 @@ This package contains `@onlongpress` event handler built from [John Doherty's](h
 **Motivation:** For similar functionality you can also use `oncontextmenu` what is built-in event. But it doesnt work on iOS devices. [Source](https://caniuse.com/mdn-api_element_contextmenu_event)
 
 - Before using the JS, I renamed triggered event name from `long-press` to `longpress` to be able to use it in Blazor.
-- I have also changed default show time from `1500ms` to `500ms`. In case you would like to specify your custom time, you can do so by adding tag attribute with your custom time like: 
+- I have also changed default show time from `1500ms` to `400ms` Based on [android longpress implementation](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/view/ViewConfiguration.java#:~:text=public%20static%20final%20int%20DEFAULT_LONG_PRESS_TIMEOUT).
+  - iOS has [500ms](https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/handling_uikit_gestures/handling_long-press_gestures) 
+- In case you would like to specify your custom time, you can do so by adding tag attribute with your custom time like: 
 ``` 
 <div @onlongpress="LongPressHandler" data-long-press-delay="100"> 
 ```
