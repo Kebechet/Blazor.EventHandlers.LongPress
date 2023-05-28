@@ -12,7 +12,9 @@ This package contains `@onlongpress` event handler built from [John Doherty's](h
 <div @onlongpress="LongPressHandler" data-long-press-delay="100"> 
 ```
 
-*TIP:* For better usage experience put: `@using Blazor.EventHandlers.LongPress` into `_Imports.razor` file.
+**TIP:** For better usage experience put: `@using Blazor.EventHandlers.LongPress` into `_Imports.razor` file.
+
+**TIP2** For combination with `@onlongpress` consider also use of [@onshortclick](https://github.com/Kebechet/Blazor.EventHandlers.ShortClick)
 
 ## Used resources
 - MSDN 
