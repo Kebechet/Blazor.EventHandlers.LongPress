@@ -2,7 +2,7 @@
 	console.log("Injecting LongPress.js");
 
 	var element = document.createElement('script');
-	element.src = "_content/Blazor.EventHandlers.LongPress/LongPress.js";
+    element.src = "_content/Kebechet.Blazor.EventHandlers.LongPress/LongPress.js";
 	element.async = true;
 	document.body.appendChild(element);
 }
