@@ -16,6 +16,64 @@ This package contains `@onlongpress` event handler built from [John Doherty's](h
 
 **TIP2** For combination with `@onlongpress` consider also use of [@onshortclick](https://github.com/Kebechet/Blazor.EventHandlers.ShortClick)
 
+## ⚠️ Auto-initializers
+- In previous MAUI versions [JS initializers were not working](https://github.com/dotnet/maui/issues/15201). So if you dont see text "Registering LongPress.js" in your JS console then you have to register this event handler manually in your `index.html`. At the end after blazor script put this:
+```
+<script defer src="_content/Kebechet.Blazor.EventHandlers.LongPress/LongPress.js"></script>
+<script async>
+	window.onload = function () {
+		console.log("Registering LongPress.js");
+
+		Blazor.registerCustomEventType('longpress', {
+			createEventArgs: event => {
+				return {
+					bubbles: event.bubbles,
+					cancelable: event.cancelable,
+					screenX: event.detail.screenX,
+					screenY: event.detail.screenY,
+					clientX: event.detail.clientX,
+					clientY: event.detail.clientY,
+					offsetX: event.detail.offsetX,
+					offsetY: event.detail.offsetY,
+					pageX: event.detail.pageX,
+					pageY: event.detail.pageY,
+					sourceElement: event.srcElement.localName,
+					targetElement: event.target.localName,
+					timeStamp: event.timeStamp,
+					type: event.type,
+				};
+			}
+		});
+
+		console.log("Registering ShortClick.js");
+		Blazor.registerCustomEventType('shortclick', {
+			createEventArgs: event => {
+				return {
+					screenX: event.detail.screenX,
+					screenY: event.detail.screenY,
+					clientX: event.detail.clientX,
+					clientY: event.detail.clientY,
+					offsetX: event.detail.offsetX,
+					offsetY: event.detail.offsetY,
+					pageX: event.detail.pageX,
+					pageY: event.detail.pageY,
+					movementX: event.detail.movementX,
+					movementY: event.detail.movementY,
+					button: event.detail.button,
+					buttons: event.detail.buttons,
+					ctrlKey: event.detail.ctrlKey,
+					shiftKey: event.detail.shiftKey,
+					altKey: event.detail.altKey,
+					metaKey: event.detail.metaKey,
+					type: event.detail.type,
+				};
+			}
+		});
+	};
+</script>
+```
+- and then it should work as expected
+
 ## Used resources
 - MSDN 
   - [docs](https://docs.microsoft.com/en-us/aspnet/core/blazor/components/event-handling?view=aspnetcore-7.0)
