@@ -1,4 +1,12 @@
-﻿export function beforeStart(options, extensions) {
+﻿export function beforeWebStart(options, extensions) {
+    beforeStart(options, extensions);
+}
+
+export function afterWebStarted(blazor) {
+    afterStarted(blazor)
+}
+
+export function beforeStart(options, extensions) {
 	console.log("Injecting LongPress.js");
 
 	var element = document.createElement('script');

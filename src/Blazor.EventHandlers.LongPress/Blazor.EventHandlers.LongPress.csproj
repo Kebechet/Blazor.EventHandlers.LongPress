@@ -16,8 +16,8 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.1.0</Version>
-		<PackageReleaseNotes>.NET8 upgrade</PackageReleaseNotes>
+		<Version>1.2.0</Version>
+		<PackageReleaseNotes>Added Blazor Web initializers</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
