@@ -1,4 +1,9 @@
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/kebechet)
+
 # Blazor.EventHandlers.LongPress
+[![NuGet Version](https://img.shields.io/nuget/v/Kebechet.Blazor.EventHandlers.LongPress)](https://www.nuget.org/packages/Kebechet.Blazor.EventHandlers.LongPress/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/Kebechet.Blazor.EventHandlers.LongPress)](https://www.nuget.org/packages/Kebechet.Blazor.EventHandlers.LongPress/)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/samuel_sidor.svg?style=social&label=Follow%20samuel_sidor)](https://x.com/samuel_sidor)
 
 This package contains `@onlongpress` event handler built from [John Doherty's](https://github.com/john-doherty) JS [long-press](https://github.com/john-doherty/long-press-event) 
 
