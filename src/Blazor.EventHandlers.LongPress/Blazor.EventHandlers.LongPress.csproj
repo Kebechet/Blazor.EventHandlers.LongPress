@@ -16,8 +16,8 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.1.0</Version>
-		<PackageReleaseNotes>Added event handler mappers from/to MouseEventArgs</PackageReleaseNotes>
+		<Version>2.1.1</Version>
+		<PackageReleaseNotes>Added package icon</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,6 +29,11 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
+
+		<None Include="..\..\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
   <ItemGroup>
