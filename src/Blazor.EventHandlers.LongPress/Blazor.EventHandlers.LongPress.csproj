@@ -16,8 +16,8 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.0.0</Version>
-		<PackageReleaseNotes>.NET9 + JS lib update</PackageReleaseNotes>
+		<Version>2.1.0</Version>
+		<PackageReleaseNotes>Added event handler mappers from/to MouseEventArgs</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
