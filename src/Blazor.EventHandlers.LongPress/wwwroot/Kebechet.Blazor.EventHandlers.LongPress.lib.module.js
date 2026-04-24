@@ -7,16 +7,16 @@ export function afterWebStarted(blazor) {
 }
 
 export function beforeStart(options, extensions) {
-	console.log("Injecting LongPress.js");
+    console.log("Injecting long-press-event.min.js");
 
 	var element = document.createElement('script');
-    element.src = "_content/Kebechet.Blazor.EventHandlers.LongPress/LongPress.js";
+    element.src = "_content/Kebechet.Blazor.EventHandlers.LongPress/long-press-event.min.js";
 	element.async = true;
 	document.body.appendChild(element);
 }
 
 export function afterStarted(blazor) {
-	console.log("Registering LongPress.js");
+    console.log("Registering long-press-event.min.js");
 
 	blazor.registerCustomEventType('longpress', {
 		createEventArgs: event => {
