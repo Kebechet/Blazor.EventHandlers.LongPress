@@ -7,6 +7,7 @@
   </PropertyGroup>
 
 	<PropertyGroup Label="NugetProperties">
+		<Authors>Kebechet</Authors>
 		<IsPackable>true</IsPackable>
 		<PackageId>Kebechet.Blazor.EventHandlers.LongPress</PackageId>
 		<Description>Contains @onlongpress blazor event handler</Description>
@@ -15,20 +16,25 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryType>git</RepositoryType>
+		<OutputType>Library</OutputType>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Version>2.1.1</Version>
 		<PackageReleaseNotes>Added package icon</PackageReleaseNotes>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\LICENSE">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 
 		<None Include="..\..\icon.png">
 			<Pack>True</Pack>
