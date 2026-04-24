@@ -18,11 +18,11 @@
 		<RepositoryType>git</RepositoryType>
 		<OutputType>Library</OutputType>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>2.1.1</Version>
-		<PackageReleaseNotes>Added package icon</PackageReleaseNotes>
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>embedded</DebugType>
 		<PackageIcon>icon.png</PackageIcon>
+		<Version>2.5.2</Version>
+		<PackageReleaseNotes>Bumped JS package - fixing Xiaomi long-press issue</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
