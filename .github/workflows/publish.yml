@@ -1,0 +1,86 @@
+name: Publish to NuGet
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_PATH: src/Blazor.EventHandlers.LongPress/Blazor.EventHandlers.LongPress.csproj
+  SOLUTION_PATH: src/Blazor.EventHandlers.LongPress.slnx
+  PACKAGE_NAME: Kebechet.Blazor.EventHandlers.LongPress
+  DOTNET_VERSION: '10.0.x'
+  BUILD_CONFIGURATION: Release
+  OUTPUT_PATH: ./nupkg
+  NUGET_SOURCE: https://api.nuget.org/v3/index.json
+  NUGET_USER: Kebechet
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write # lets NuGet/login request the GitHub OIDC token
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Get version from csproj
+        id: version
+        run: |
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+' ${{ env.PROJECT_PATH }})
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      # GeneratePackageOnBuild means the build itself emits the .nupkg under src/<Project>/bin/<Config>/,
+      # so a separate `dotnet pack` step is redundant - and a standalone `dotnet pack` fails outright with NU5026.
+      # The solution also holds the Playwright browser tests: building them only copies Playwright's driver, the
+      # browsers are downloaded when the tests run, and this workflow never runs them.
+      - name: Build (produces the .nupkg via GeneratePackageOnBuild)
+        run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+      - name: Collect package
+        run: |
+          mkdir -p ${{ env.OUTPUT_PATH }}
+          cp src/*/bin/${{ env.BUILD_CONFIGURATION }}/*.nupkg ${{ env.OUTPUT_PATH }}/
+          ls -la ${{ env.OUTPUT_PATH }}
+
+      # Trusted Publishing: the policy on nuget.org matches this workflow's file name, and the
+      # key it returns expires after 1 hour, so keep this step directly before the push.
+      - name: NuGet login (OIDC -> temporary API key)
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ env.NUGET_USER }}
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ${{ env.OUTPUT_PATH }}/*.nupkg --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }} --source ${{ env.NUGET_SOURCE }} --skip-duplicate
+
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push ${{ env.OUTPUT_PATH }}/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          body: |
+            ## ${{ env.PACKAGE_NAME }} v${{ steps.version.outputs.version }}
+
+            ### Installation
+            ```bash
+            dotnet add package ${{ env.PACKAGE_NAME }} --version ${{ steps.version.outputs.version }}
+            ```
+
+            ### Links
+            - [NuGet Package](https://www.nuget.org/packages/${{ env.PACKAGE_NAME }}/${{ steps.version.outputs.version }})
+            - [GitHub](https://github.com/Kebechet/Blazor.EventHandlers.LongPress)
+          files: ${{ env.OUTPUT_PATH }}/*.nupkg
+          generate_release_notes: true
