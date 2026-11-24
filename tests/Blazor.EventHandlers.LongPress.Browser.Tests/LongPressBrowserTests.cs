@@ -24,10 +24,14 @@ public class LongPressBrowserTests(BrowserFixture browserFixture) : IClassFixtur
     private static readonly TimeSpan _holdPastTheDelayWithALateTimer = TimeSpan.FromMilliseconds(500);
 
     /// <summary>Starts before the release below and ends after it, so the pointerup waits behind it.</summary>
-    private static readonly TimeSpan _busyAcrossTheReleaseDuration = TimeSpan.FromMilliseconds(500);
+    private static readonly TimeSpan _busyAcrossTheReleaseDuration = TimeSpan.FromMilliseconds(600);
 
-    /// <summary>Past the 400ms delay, released while the main thread is still busy.</summary>
-    private static readonly TimeSpan _holdReleasedWhileBusy = TimeSpan.FromMilliseconds(450);
+    /// <summary>Well past the 400ms delay, released while the main thread is still busy.</summary>
+    private static readonly TimeSpan _holdReleasedWhileBusy = TimeSpan.FromMilliseconds(500);
+
+    /// <summary>Why a longpress counted before the release would make a release test prove nothing.</summary>
+    private const string RaisedBeforeTheReleaseMessage =
+        "The timer raised the longpress before the release, so the release path was never exercised.";
 
     /// <summary>
     /// The event is renamed from long-press to longpress, which Blazor can bind, and the default delay lowered from 1500ms
@@ -114,9 +118,12 @@ public class LongPressBrowserTests(BrowserFixture browserFixture) : IClassFixtur
 
         // Act
         await page.Press();
-        await page.ReleaseAfter(_holdPastTheDelayWithALateTimer);
+        await page.WaitUntilHeldFor(_holdPastTheDelayWithALateTimer);
+        var longPressCountBeforeTheRelease = await page.GetLongPressCount();
+        await page.Release();
 
         // Assert
+        longPressCountBeforeTheRelease.ShouldBe(0, RaisedBeforeTheReleaseMessage);
         var longPressCount = await page.GetLongPressCount();
         longPressCount.ShouldBe(1);
     }
@@ -135,10 +142,13 @@ public class LongPressBrowserTests(BrowserFixture browserFixture) : IClassFixtur
 
         // Act
         await page.Press();
-        await page.ReleaseAfter(_holdPastTheDelayWithALateTimer);
+        await page.WaitUntilHeldFor(_holdPastTheDelayWithALateTimer);
+        var longPressCountBeforeTheRelease = await page.GetLongPressCount();
+        await page.Release();
         await Task.Delay(_settleDuration);
 
         // Assert
+        longPressCountBeforeTheRelease.ShouldBe(0, RaisedBeforeTheReleaseMessage);
         var longPressCount = await page.GetLongPressCount();
         longPressCount.ShouldBe(1);
         var clickCount = await page.GetClickCount();

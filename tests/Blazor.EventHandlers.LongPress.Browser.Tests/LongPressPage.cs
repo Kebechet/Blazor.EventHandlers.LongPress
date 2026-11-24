@@ -83,22 +83,19 @@ internal sealed class LongPressPage : IAsyncDisposable
         return await _page.EvaluateAsync<int>("() => window.clickCount");
     }
 
-    /// <summary>
-    /// The button's centre in CSS pixels. Doubles, not the bounding box's floats: Playwright serializes a float
-    /// argument as an object, which a script then reads as NaN.
-    /// </summary>
-    private async Task<(double X, double Y)> GetButtonCentre()
+    /// <summary>The button's centre in CSS pixels.</summary>
+    private async Task<(float X, float Y)> GetButtonCentre()
     {
         var box = await _page.Locator(ButtonSelector).BoundingBoxAsync();
         box.ShouldNotBeNull();
 
-        return ((double)box.X + (box.Width / 2), (double)box.Y + (box.Height / 2));
+        return (box.X + (box.Width / 2), box.Y + (box.Height / 2));
     }
 
     public async Task MoveToButton()
     {
         var (x, y) = await GetButtonCentre();
-        await _page.Mouse.MoveAsync((float)x, (float)y);
+        await _page.Mouse.MoveAsync(x, y);
     }
 
     /// <summary>Presses the mouse where it is, through the browser's real input pipeline, and starts timing the press.</summary>
@@ -111,19 +108,29 @@ internal sealed class LongPressPage : IAsyncDisposable
     public async Task MoveBy(int distancePixels)
     {
         var (x, y) = await GetButtonCentre();
-        await _page.Mouse.MoveAsync((float)(x + distancePixels), (float)y);
+        await _page.Mouse.MoveAsync(x + distancePixels, y);
     }
 
-    /// <summary>Releases the mouse once it has been held for <paramref name="holdDuration"/> since <see cref="Press"/>.</summary>
-    public async Task ReleaseAfter(TimeSpan holdDuration)
+    /// <summary>Returns once the mouse has been held for <paramref name="holdDuration"/> since <see cref="Press"/>.</summary>
+    public async Task WaitUntilHeldFor(TimeSpan holdDuration)
     {
         var remainingDuration = holdDuration - _pressStopwatch.Elapsed;
         if (remainingDuration > TimeSpan.Zero)
         {
             await Task.Delay(remainingDuration);
         }
+    }
 
+    public async Task Release()
+    {
         await _page.Mouse.UpAsync();
+    }
+
+    /// <summary>Releases the mouse once it has been held for <paramref name="holdDuration"/> since <see cref="Press"/>.</summary>
+    public async Task ReleaseAfter(TimeSpan holdDuration)
+    {
+        await WaitUntilHeldFor(holdDuration);
+        await Release();
     }
 
     /// <summary>
