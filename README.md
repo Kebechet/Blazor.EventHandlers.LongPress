@@ -20,6 +20,15 @@ This package contains `@onlongpress` event handler built from [John Doherty's](h
 **TIP:** For better usage experience put: `@using Blazor.EventHandlers.LongPress` into `_Imports.razor` file.
 
 **TIP2** For combination with `@onlongpress` consider also use of [@onshortclick](https://github.com/Kebechet/Blazor.EventHandlers.ShortClick)
+- ⚠️ Both packages default to 400ms, but each reads its own attribute: `data-long-press-delay` here, `data-shortclick-long-press-ms` in ShortClick. Change one and change the other with it, or a press between the two limits is both a click and a long press, or neither.
+  - `data-long-press-delay` is read from the pressed element and its ancestors up to `<body>`, never from `<html>`. Where ShortClick's attribute sits on `<html>`, put this one on `<body>`.
+
+## ⚠️ Patched until upstream ships the fix
+The upstream script starts its timer when its `pointerdown` handler runs, checks it once per animation frame, and cancels it on `pointerup`. A press held for the delay but released before the timer catches up therefore raises nothing: up to about 35ms past the delay on an idle phone, and much more when the main thread is busy at the touch. Paired with ShortClick, which treats such a press as not a tap, neither a click nor a long press happens.
+
+This package ships the script built from [upstream PR 57](https://github.com/john-doherty/long-press-event/pull/57), which raises the long press on release when the events' own timestamps say it was held for the delay. A long press raised that way still swallows the following click when its handler calls `preventDefault`.
+- The patch goes away with the upstream release that contains it.
+- `Hold_PastTheDelayWhileTheMainThreadWasBusyAtTheTouch_RaisesLongPressOnRelease` in `tests/Blazor.EventHandlers.LongPress.Browser.Tests` fails if an update of the script drops it.
 
 ## ⚠️ Auto-initializers
 - In previous MAUI versions [JS initializers were not working](https://github.com/dotnet/maui/issues/15201). So if you dont see text "Registering LongPress.js" in your JS console then you have to register this event handler manually in your `index.html`. At the end after blazor script put this:

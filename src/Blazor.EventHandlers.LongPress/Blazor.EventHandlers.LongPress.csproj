@@ -21,8 +21,8 @@
 		<DebugSymbols>true</DebugSymbols>
 		<DebugType>embedded</DebugType>
 		<PackageIcon>icon.png</PackageIcon>
-		<Version>2.5.2.1</Version>
-		<PackageReleaseNotes>Lowered Microsoft.AspNetCore.Components.Web floor per TFM to the major.minor base version to prevent NU1605 downgrade errors when consumers pin a lower patch.</PackageReleaseNotes>
+		<Version>2.5.2.2</Version>
+		<PackageReleaseNotes>Fixed: a press held for the delay but released before the script's timer caught up raised no longpress (with ShortClick, neither a click nor a long press happened). The release now raises it, measured by the events' own timestamps. Patch from https://github.com/john-doherty/long-press-event/pull/57, removed with the upstream release that contains it.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
