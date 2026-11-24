@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../tests/Blazor.EventHandlers.LongPress.Browser.Tests/Blazor.EventHandlers.LongPress.Browser.Tests.csproj" />
   <Project Path="Blazor.EventHandlers.LongPress/Blazor.EventHandlers.LongPress.csproj" />
 </Solution>
